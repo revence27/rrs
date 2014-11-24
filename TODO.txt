@@ -3,3 +3,8 @@
   2.  Storing the first error of the failed transfers
 2.  Generating objects out of the reports.
 3.  Linking objects to dashboards
+
+Add back-track and look-ahead to message parsing?
+  Only to deal with known message error classes.
+  Probably http://web.cse.ohio-state.edu/~gurari/course/cse756/cse756su26.xht
+  Or add conditional alternative field descriptions.
