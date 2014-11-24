@@ -1,0 +1,5 @@
+1.  Separating out the valid messages (henceforth "reports").
+  1.  Marking the failed transfers
+  2.  Storing the first error of the failed transfers
+2.  Generating objects out of the reports.
+3.  Linking objects to dashboards
