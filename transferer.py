@@ -134,7 +134,7 @@ def single_handle(tbn, pgc, args, options):
   return True
 
 def store_components(mname, msg, fid):
-  princ = {}
+  princ = {'oldid': fid, 'message': msg}
   auxil = {}
   for k in msg.entries.keys():
     chose = msg.entries[k]
@@ -162,38 +162,6 @@ def store_treatment(fid, stt):
   orm.ORM.store('treated_messages', {'oldid': fid, 'success': stt})
 
 def imain(args):
-  opts  = OptionParser()
-  opts.add_option('-t', '--type',
-                    # action='store_true',
-                    dest    = 'type',
-                    default = None,
-                    help    = 'Report type code (e.g., PRE) to privilege.'),
-  opts.add_option('-n', '--number',
-                    # action='store_true',
-                    dest    = 'number',
-                    default = 5000,
-                    help    = 'Number of reports to transfer.'),
-  opts.add_option('-b', '--background',
-                    action='store_true',
-                    dest    = 'background',
-                    default = False,
-                    help    = u'Dæmonise.'),
-  opts.add_option('-r', '--repeat',
-                    action='store_true',
-                    dest    = 'repeat',
-                    default = False,
-                    help    = 'When done, do again.'),
-  opts.add_option('-f', '--force',
-                    action='store_true',
-                    dest    = 'force',
-                    default = False,
-                    help    = 'Only works if -d is on. Also delete those that are being transferred.'),
-  opts.add_option('-d', '--delete',
-                    action  = 'store_true',
-                    dest    = 'delete',
-                    default = False,
-                    help    = 'Delete Report.objects.filter(id__in = [Already transferred]).delete().')
-  # kw, argv = opts.parse_args(args)
   handle_messages(args, os.environ)
   return 0
 
