@@ -294,9 +294,11 @@ class VaccinationField(NumberedField):
   @classmethod
   def expectations(self):
     'The vaccination completion codes.'
-    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'VC', 'VI', 'NV']
+    # return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'VC', 'VI', 'NV']
+    return ['V1', 'V2', 'V3', 'V4', 'V5', 'V6']
 
-class VaccinationCompletionField(VaccinationField):
+# class VaccinationCompletionField(VaccinationField):
+class VaccinationCompletionField(CodeField):
   'Vaccination Completion fields.'
   @classmethod
   def expectations(self):
@@ -323,8 +325,9 @@ class DeathField(CodeField):
 
 class ThouMsgError:
   'Small exception class.'
-  def __init__(self, errors):
+  def __init__(self, msg, errors):
     self.errors     = errors
+    self.message    = msg
 
 class ThouMessage:
   '''Base class describing the standard RapidSMS 1000 Days message.'''
@@ -431,7 +434,7 @@ class ThouMessage:
       except Exception, err:
         errors.append((str(err), fld))
     if etc.strip():
-      errors.append('Superfluous text: "%s"' % (etc.strip(),))
+      errors.append(('bad_text', 'Superfluous text: "%s"' % (etc.strip(),)))
     return klass(cod, msg, fobs, errors, dt)
 
   def __init__(self, cod, txt, fobs, errs, dt):
@@ -439,9 +442,9 @@ class ThouMessage:
     self.errors   = errs
     self.text     = txt
     self.fields   = fobs
-    if self.errors: raise ThouMsgError(self.errors)
+    if self.errors: raise ThouMsgError(self, self.errors)
     semerrors     = self.semantics_check(dt)
-    if semerrors: raise ThouMsgError(semerrors)
+    if semerrors: raise ThouMsgError(self, semerrors)
     def as_hash(p, n):
       p[n.__class__.subname()] = n
       return p
